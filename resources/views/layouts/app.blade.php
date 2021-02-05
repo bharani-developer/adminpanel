@@ -7,6 +7,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel 8 User Roles and Permissions Tutorial') }}</title>
     <!-- Scripts -->
+    <script
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -34,12 +38,12 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
-                            <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
+                            <li class="item-nav"><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
+                            <li class="item-nav"><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                         @else
-                            <li><a class="nav-link" href="{{ route('users.index') }}">Manage Users</a></li>
-                            <li><a class="nav-link" href="{{ route('roles.index') }}">Manage Role</a></li>
-                            <li><a class="nav-link" href="{{ route('products.index') }}">Manage Product</a></li>
+                            <li class="item-nav"><a class="nav-link" href="{{ route('users.index') }}">Manage Users</a></li>
+                            <li class="item-nav"><a class="nav-link" href="{{ route('roles.index') }}">Manage Role</a></li>
+                            <li class="item-nav"><a class="nav-link" href="{{ route('products.index') }}">Manage Product</a></li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -72,5 +76,18 @@
             </div>
         </main>
     </div>
+    <script>
+      
+      $(".item-nav a").on('click',function(e) {
+        var href = $(this).attr('href');
+        $.ajax({
+                    url: href, 
+                    success: function (response) {
+                       $(".container").load($(this).attr(href));
+                       console.log('response')
+                    }
+                });
+});
+    </script>
 </body>
 </html>
